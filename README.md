@@ -4,18 +4,18 @@ A simple application built to calculate disbursements for orders bought by shopp
 
 ## Implementation
 
-The application is written in [Scala](https://docs.scala-lang.org/) version 3 and relies on [cats-effect](https://typelevel.org/cats-effect/) as the async runtime where computations are reified as values of type `IO`.
+The application has been [Scala](https://docs.scala-lang.org/) version 3 and relies on [cats-effect](https://typelevel.org/cats-effect/) as the async runtime where we reify computations as values of type `IO`.
 
 The design takes a simple approach where we may acknowledge are four layers:
 
 1. Api - HTTP routes for request/response to query by date/merchant, then
-2. Algebra - Service where disbursements are accumulated given the search parameters, then
-3. Repository - A thin abstraction over a storage layer, for the sake of simplicity it's currenctly backed by a in-memory constant store, then
-4. Types - A set of types modelling business concepts, namely the order abstraction from which disbursements are computed.
+2. Algebra - Service where disbursements get accumulated given the search parameters, then
+3. Repository - A thin abstraction over a storage layer, for the sake of simplicity it's currently backed by a in-memory constant store, then
+4. Types - A set of types representing business concepts, namely the order abstraction from which disbursements get computed.
 
 Upon providing a date within the week of interest (and possibly the merchant id), we then find its corresponding week as per:
 
-A week is defined by the truncating the date such that:
+We define a week by truncating the date such that:
 _ opening time is the previous (or same) Monday (beginning)
 _ closing time is the next (or same) Sunday (ending).
 
