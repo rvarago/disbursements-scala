@@ -3,7 +3,6 @@ package com.rvarago.disbursements.types
 import cats.syntax.all._
 import com.rvarago.disbursements.Gens
 import com.rvarago.disbursements.types.DefaultCurrency
-import com.rvarago.disbursements.types.disbursedAmount
 import munit.FunSuite
 import munit.ScalaCheckSuite
 import org.scalacheck.Prop._

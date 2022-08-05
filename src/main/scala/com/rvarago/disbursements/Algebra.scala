@@ -5,7 +5,6 @@ import cats.syntax.all._
 import com.rvarago.disbursements.types.MerchantId
 import com.rvarago.disbursements.types.Order
 import com.rvarago.disbursements.Period
-import com.rvarago.disbursements.types.disbursedAmount
 import squants.market.Money
 import com.rvarago.disbursements.types.DefaultCurrency
 

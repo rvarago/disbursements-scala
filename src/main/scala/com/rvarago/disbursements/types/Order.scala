@@ -26,21 +26,22 @@ final case class Order(
   */
 val DefaultCurrency = EUR
 
-extension (order: Order)
-  /** Returns the disbursed amount for an order if complete, none otherwise
-    *
-    * The disbursement is defined as a percentage of the order's amount varying
-    * according to its tier.
-    */
-  def disbursedAmount: Option[Money] =
-    Option.when(order.isCompleted)(order.amount * order.tier.fee)
+object Order:
+  extension (order: Order)
+    /** Returns the disbursed amount for an order if complete, none otherwise
+      *
+      * The disbursement is defined as a percentage of the order's amount
+      * varying according to its tier.
+      */
+    def disbursedAmount: Option[Money] =
+      Option.when(order.isCompleted)(order.amount * order.tier.fee)
 
-  private def tier: Tier = order.amount match
-    case amount if amount < DefaultCurrency(50)  => Tier.Small
-    case amount if amount < DefaultCurrency(300) => Tier.Medium
-    case _                                       => Tier.High
+    private def tier: Tier = order.amount match
+      case amount if amount < DefaultCurrency(50)  => Tier.Small
+      case amount if amount < DefaultCurrency(300) => Tier.Medium
+      case _                                       => Tier.High
 
-  private def isCompleted: Boolean = order.completedAt.isDefined
+    private def isCompleted: Boolean = order.completedAt.isDefined
 
 private enum Tier:
   case Small

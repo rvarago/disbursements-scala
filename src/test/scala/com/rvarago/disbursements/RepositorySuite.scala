@@ -4,7 +4,6 @@ import cats.Id
 import cats.syntax.all._
 import com.rvarago.disbursements.types.DefaultCurrency
 import com.rvarago.disbursements.types.Order
-import com.rvarago.disbursements.types.disbursedAmount
 import munit.FunSuite
 import munit.ScalaCheckSuite
 import org.scalacheck.Gen
