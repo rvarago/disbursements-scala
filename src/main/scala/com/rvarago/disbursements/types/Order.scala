@@ -49,7 +49,7 @@ private enum Tier:
   case High
 
 extension (category: Tier)
-  def fee: BigDecimal = category match
+  private def fee: BigDecimal = category match
     case Tier.Small  => BigDecimal.decimal(0.01)
     case Tier.Medium => BigDecimal.decimal(0.0095)
     case Tier.High   => BigDecimal.decimal(0.0085)
