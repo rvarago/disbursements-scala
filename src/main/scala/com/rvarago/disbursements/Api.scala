@@ -49,19 +49,17 @@ object Api:
       def fail = e match
         case Error.NotFound(_, _, _) => NotFound(e.asJson.deepDropNullValues)
 
-    enum ApiSuccess:
+    enum Success:
       case Total(amount: String)
 
-    object ApiSuccess:
-      def from(
-          amount: Money
-      ): ApiSuccess =
-        ApiSuccess.Total(amount.toFormattedString)
+    object Success:
+      def from(amount: Money): Success =
+        Success.Total(amount.toFormattedString)
 
-    extension (s: ApiSuccess) def succeed = Ok(s.asJson.deepDropNullValues)
+    extension (s: Success) def succeed = Ok(s.asJson.deepDropNullValues)
 
     def toHttp(r: Either[Disbursements.Error, Money]) =
-      r.fold(Error.from(_).fail, ApiSuccess.from(_).succeed)
+      r.fold(Error.from(_).fail, Success.from(_).succeed)
 
     HttpRoutes.of[F] {
       case GET -> Root / LocalDateVar(inWeek) =>
