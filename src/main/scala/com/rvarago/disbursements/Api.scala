@@ -31,23 +31,23 @@ object Api:
     val dsl = new Http4sDsl[F] {}
     import dsl._
 
-    enum ApiError:
+    enum Error:
       case NotFound(
           starting: LocalDateTime,
           ending: LocalDateTime,
           merchantId: Option[MerchantId]
       )
 
-    object ApiError:
-      def from: Disbursements.Error => ApiError = _ match
+    object Error:
+      def from: Disbursements.Error => Error = _ match
         case Disbursements.Error.NotFound(from, to) =>
-          ApiError.NotFound(from, to, none)
+          Error.NotFound(from, to, none)
         case Disbursements.Error.NotFoundWithMerchant(from, to, merchantId) =>
-          ApiError.NotFound(from, to, merchantId.some)
+          Error.NotFound(from, to, merchantId.some)
 
-    extension (e: ApiError)
+    extension (e: Error)
       def fail = e match
-        case ApiError.NotFound(_, _, _) => NotFound(e.asJson.deepDropNullValues)
+        case Error.NotFound(_, _, _) => NotFound(e.asJson.deepDropNullValues)
 
     enum ApiSuccess:
       case Total(amount: String)
@@ -61,7 +61,7 @@ object Api:
     extension (s: ApiSuccess) def succeed = Ok(s.asJson.deepDropNullValues)
 
     def toHttp(r: Either[Disbursements.Error, Money]) =
-      r.fold(ApiError.from(_).fail, ApiSuccess.from(_).succeed)
+      r.fold(Error.from(_).fail, ApiSuccess.from(_).succeed)
 
     HttpRoutes.of[F] {
       case GET -> Root / LocalDateVar(inWeek) =>
